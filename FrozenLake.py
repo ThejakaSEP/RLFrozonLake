@@ -30,10 +30,8 @@ rewards_all_episodes = []
 
 for episode in range(num_episodes):
     state = env.reset()
-
     done = False
     rewards_current_episode = 0
-
     for step in range(max_steps_per_episode):
 
         # Exploration-exploitation trade-off
@@ -72,4 +70,31 @@ for r in rewards_per_thousand_episodes:
     count+=1000
 
 
+for episode in range(3):
+    state = env.reset()
+    done = False
+    print("*********EPISODE ",episode+1, "********\n\n\n\n")
+    time.sleep(1)
+
+    for step in range(max_steps_per_episode):
+        clear_output(wait=True)
+        env.render()
+        time.sleep(0.3)
+
+        action = np.argmax(q_table[state,:])
+        new_state,reward,done,info = env.step(action)
+
+        if done:
+            clear_output(wait=True)
+            env.render()
+            if reward == 1:
+                print("*****You reached the goal!*****")
+                time.sleep(3)
+            else:
+                print("*****You fell through a hole!*****")
+                time.sleep(3)
+            clear_output(wait=True)
+            break
+        state = new_state
+    env.close()
 # print(q_table)
